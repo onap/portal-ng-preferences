@@ -1,0 +1,48 @@
+POST http://localhost:8080/auth/realms/ONAP/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=portal-app&client_secret=&scope=openid&grant_type=password&username=onap-admin&password=password
+> {%
+ client.global.set("access_token", response.body.access_token);
+ client.global.set("id_token", response.body.id_token);
+ %}
+
+###
+
+POST http://localhost:9001/v1/preferences
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+X-Auth-Identity: Bearer {{id_token}}
+X-Request-Id: {{$uuid}}
+
+{
+  "properties": {
+    "dashboard": {
+      "apps": {
+        "availableTiles": [
+          {
+            "type": "USER_LAST_ACTION_TILE",
+            "displayed": false
+          }
+        ],
+        "lastUserAction": {
+          "interval": "1H",
+          "filterType": "ALL"
+        }
+      }
+    }
+  }
+}
+
+###
+
+GET http://localhost:9001/v1/preferences
+Accept: application/json
+Authorization: Bearer {{access_token}}
+X-Auth-Identity: Bearer {{id_token}}
+X-Request-Id: {{$uuid}}
+
+###
+
+
