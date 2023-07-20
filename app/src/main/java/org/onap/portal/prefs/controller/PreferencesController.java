@@ -63,7 +63,7 @@ public class PreferencesController implements PreferencesApi {
   }
 
   @Override
-  public Mono<ResponseEntity<Preferences>> savePreferences(String xRequestId, @Valid Mono<Preferences> preferences,
+  public Mono<ResponseEntity<Preferences>> savePreferences(String xRequestId, Mono<Preferences> preferences,
                                                            ServerWebExchange exchange) {
   return IdTokenExchange
     .extractUserId(exchange)
@@ -81,7 +81,7 @@ public class PreferencesController implements PreferencesApi {
   }
 
   @Override
-  public Mono<ResponseEntity<Preferences>> updatePreferences(String xRequestId, @Valid Mono<Preferences> preferences, ServerWebExchange exchange) {
+  public Mono<ResponseEntity<Preferences>> updatePreferences(String xRequestId, Mono<Preferences> preferences, ServerWebExchange exchange) {
     return savePreferences(xRequestId, preferences, exchange);
   }
 
