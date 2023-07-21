@@ -24,7 +24,9 @@ package org.onap.portal.prefs;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.nimbusds.jose.JOSEObjectType;
@@ -42,7 +44,6 @@ import com.nimbusds.jwt.SignedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import io.vavr.collection.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -58,7 +59,6 @@ public class TokenGenerator {
   private final JWKSet jwkSet;
   private final JWSSigner signer;
 
-  @Autowired
   public TokenGenerator(Clock clock) {
     try {
       this.clock = clock;
@@ -121,7 +121,7 @@ public class TokenGenerator {
 
     @NonNull @Builder.Default private final Duration expireIn = Duration.ofMinutes(5);
 
-    @Builder.Default private final List<String> roles = List.empty();
+    @Builder.Default private final List<String> roles = Collections.emptyList();
 
     public String issuer() {
       return String.format("http://localhost:%d/auth/realms/%s", port, realm);

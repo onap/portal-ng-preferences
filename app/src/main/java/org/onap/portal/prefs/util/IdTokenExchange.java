@@ -21,12 +21,12 @@
 
 package org.onap.portal.prefs.util;
 
+import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+
+import java.text.ParseException;
+
 import org.springframework.web.server.ServerWebExchange;
-import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
 import reactor.core.publisher.Mono;
 
 /**
@@ -49,11 +49,9 @@ public final class IdTokenExchange {
    * @return the identity header in the form of <code>Bearer {@literal <Token>}<c/ode>
    */
   private static Mono<String> extractIdentityHeader(ServerWebExchange exchange) {
-    return io.vavr.collection.List.ofAll(
-            exchange.getRequest().getHeaders().getOrEmpty(X_AUTH_IDENTITY_HEADER))
-        .headOption()
-        .map(Mono::just)
-        .getOrElse(Mono.error(Problem.valueOf(Status.FORBIDDEN, "ID token is missing")));
+    return Mono.just(exchange.getRequest().getHeaders().getOrEmpty(X_AUTH_IDENTITY_HEADER))
+        .map(headers -> headers.get(0))
+        .onErrorResume(Exception.class, ex -> Mono.error(ex));
   }
 
     /**
@@ -73,19 +71,18 @@ public final class IdTokenExchange {
    * @return the id of the user
    */
   public static Mono<String> extractUserId(ServerWebExchange exchange) {
-     return extractIdToken(exchange)
-         .flatMap(
-             idToken ->
-                 Try.of(() -> JWTParser.parse(idToken))
-                     .mapTry(jwt -> Option.of(jwt.getJWTClaimsSet()))
-                     .map(
-                         optionJwtClaimSet ->
-                             optionJwtClaimSet
-                                 .flatMap(
-                                     jwtClaimSet ->
-                                         Option.of(jwtClaimSet.getClaim(JWT_CLAIM_USERID)))
-                                 .map(String.class::cast)
-                     .map( Mono::just).get())
-                     .getOrElseGet(Mono::error));
+    return extractIdToken(exchange)
+        .flatMap(idToken -> extractUserClaim(idToken));
+  }
+
+  private static Mono<String> extractUserClaim(String idToken) {
+    JWTClaimsSet jwtClaimSet;
+	try {
+		jwtClaimSet = JWTParser.parse(idToken).getJWTClaimsSet();
+	} catch (ParseException e) {
+		return Mono.error(e);
+	}
+    return Mono.just(String.class.cast(jwtClaimSet.getClaim(JWT_CLAIM_USERID)));
   }
 }
+

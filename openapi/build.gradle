@@ -26,14 +26,14 @@ openApiGenerate {
     inputSpec = "$projectDir/src/main/resources/api/api.yml"
     outputDir = "$buildDir/openapi"
     configOptions = [
+        hideGenerationTimestamp: "true",
 		openApiNullable: "false",
 		skipDefaultInterface: "true",
 		dateLibrary: "java8",
 		interfaceOnly: "true",
 		useTags: "true",
 		useOptional: "true",
-		reactive: "true",
-        hideGenerationTimestamp: "true"
+		reactive: "true"
     ]
     generateApiTests = false
     generateApiDocumentation = false

@@ -30,30 +30,22 @@ import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
-import io.vavr.collection.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.http.MediaType;
 
+import java.util.List;
 import java.util.UUID;
 
 /** Base class for all tests that has the common config including port, realm, logging and auth. */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 0)
 public abstract class BaseIntegrationTest {
-
-//  @TestConfiguration
-//  public static class Config {
-//    @Bean
-//    WireMockConfigurationCustomizer optionsCustomizer() {
-//      return options -> options.extensions(new ResponseTemplateTransformer(true));
-//    }
-//  }
 
   @LocalServerPort protected int port;
   @Value("${portal-prefs.realm}")
