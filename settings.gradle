@@ -7,7 +7,7 @@ pluginManagement {
         id 'org.sonarqube' version '3.4.0.2513'
         id 'com.github.hierynomus.license' version '0.16.1'
         id 'com.gorylenko.gradle-git-properties' version '2.4.1'
-        id 'org.openapi.generator' version '6.2.0'
+        id 'org.openapi.generator' version '6.6.0'
     }
     // https://docs.gradle.org/current/userguide/plugins.html#sec:custom_plugin_repositories
     repositories {
