@@ -1,0 +1,13 @@
+Code-Review+2: Andreas Geissler <andreas-geissler@telekom.de>
+Code-Review+2: Matthew Watkins <mwatkins@linuxfoundation.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Fiete Ostkamp <fiete.ostkamp@telekom.de>
+Verified+1: Andreas Geissler <andreas-geissler@telekom.de>
+Verified+1: Fiete Ostkamp <fiete.ostkamp@telekom.de>
+Code-Review+2: Lukasz Rajewski <lukasz.rajewski@t-mobile.pl>
+Verified+1: Lukasz Rajewski <lukasz.rajewski@t-mobile.pl>
+Submitted-by: Fiete Ostkamp <fiete.ostkamp@telekom.de>
+Submitted-at: Fri, 21 Jul 2023 13:25:14 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/portal-ng/preferences/+/135531
+Project: portal-ng/preferences
+Branch: refs/heads/master
