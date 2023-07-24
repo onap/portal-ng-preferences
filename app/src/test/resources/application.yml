@@ -2,10 +2,13 @@ server:
   port: 9001
   address: 0.0.0.0
 
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 5.0.15
+
 spring:
-  mongodb:
-    embedded:
-      version: 3.2.8
   jackson:
     serialization:
       # needed for serializing objects of type object

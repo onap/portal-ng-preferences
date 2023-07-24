@@ -37,9 +37,9 @@ repositories {
 ext {
     problemVersion = '0.27.1'
     logstashLogbackVersion = '7.2'
-		embedMongoVersion = '3.2.8'
-		embedMongoIntegrationVersion = '1.1.0-spring27x'
-    springCloudWiremockVersion = '3.1.0'
+	embedMongoVersion = '4.7.0'
+	embedMongoIntegrationVersion = '4.7.0'
+    springCloudWiremockVersion = '4.0.3'
 }
 
 dependencies {
@@ -65,7 +65,7 @@ dependencies {
 	testImplementation 'io.rest-assured:rest-assured'
 	testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock:$springCloudWiremockVersion"
 	testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedMongoVersion"
-	testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring:$embedMongoIntegrationVersion"
+	testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring30x:$embedMongoIntegrationVersion"
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
