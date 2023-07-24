@@ -21,11 +21,12 @@
 
 package org.onap.portal.prefs.util;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-
 import java.net.URI;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Logger {
@@ -36,8 +37,8 @@ public class Logger {
     log.info("Portal-prefs - request - X-Request-Id {} {} {}", xRequestId, methode, path);
   }
 
-  public static void responseLog(String xRequestId, HttpStatus code) {
-    log.info("Portal-prefs - response - X-Request-Id {} {}", xRequestId, code);
+  public static void responseLog(String xRequestId, HttpStatusCode httpStatusCode) {
+    log.info("Portal-prefs - response - X-Request-Id {} {}", xRequestId, httpStatusCode);
   }
 
   public static void errorLog(String xRequestId, String msg, String id, String app) {

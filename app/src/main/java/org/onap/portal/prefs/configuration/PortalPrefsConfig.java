@@ -21,15 +21,12 @@
 
 package org.onap.portal.prefs.configuration;
 
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-@ConstructorBinding
 @ConfigurationProperties("portal-prefs")
 public class PortalPrefsConfig {
 

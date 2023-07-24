@@ -20,10 +20,6 @@
  */
 
 package org.onap.portal.prefs.controller;
-
-
-import javax.validation.Valid;
-
 import org.onap.portal.prefs.exception.ProblemException;
 import org.onap.portal.prefs.openapi.api.PreferencesApi;
 import org.onap.portal.prefs.openapi.model.Preferences;

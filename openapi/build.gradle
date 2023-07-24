@@ -9,8 +9,9 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.openapitools:openapi-generator:6.6.0'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.3'
+	implementation 'org.openapitools:openapi-generator:7.0.0-beta'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux:3.1.2'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     constraints {
         implementation('io.swagger.core.v3:swagger-annotations:2.2.5') {
@@ -33,7 +34,8 @@ openApiGenerate {
 		interfaceOnly: "true",
 		useTags: "true",
 		useOptional: "true",
-		reactive: "true"
+		reactive: "true",
+        useSpringBoot3: "true"
     ]
     generateApiTests = false
     generateApiDocumentation = false
