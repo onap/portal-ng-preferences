@@ -19,9 +19,9 @@
  *
  */
 
-package org.onap.portal.prefs.repository;
+package org.onap.portalng.preferences.repository;
 
-import org.onap.portal.prefs.entities.PreferencesDto;
+import org.onap.portalng.preferences.entities.PreferencesDto;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 public interface PreferencesRepository extends ReactiveMongoRepository<PreferencesDto, String> {

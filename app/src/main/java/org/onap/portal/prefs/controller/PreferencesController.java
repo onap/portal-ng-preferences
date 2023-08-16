@@ -19,13 +19,13 @@
  *
  */
 
-package org.onap.portal.prefs.controller;
-import org.onap.portal.prefs.exception.ProblemException;
-import org.onap.portal.prefs.openapi.api.PreferencesApi;
-import org.onap.portal.prefs.openapi.model.Preferences;
-import org.onap.portal.prefs.services.PreferencesService;
-import org.onap.portal.prefs.util.IdTokenExchange;
-import org.onap.portal.prefs.util.Logger;
+package org.onap.portalng.preferences.controller;
+import org.onap.portalng.preferences.exception.ProblemException;
+import org.onap.portalng.preferences.openapi.api.PreferencesApi;
+import org.onap.portalng.preferences.openapi.model.Preferences;
+import org.onap.portalng.preferences.services.PreferencesService;
+import org.onap.portalng.preferences.util.IdTokenExchange;
+import org.onap.portalng.preferences.util.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +51,7 @@ public class PreferencesController implements PreferencesApi {
         preferencesService.getPreferences(userid)
           .map(ResponseEntity::ok))
           .onErrorResume(ProblemException.class, ex -> {
-              Logger.errorLog(xRequestId,"user preferences", null, "portal-prefs" );
+              Logger.errorLog(xRequestId,"user preferences", null, "preferences" );
               return Mono.error(ex);
           })
       .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
@@ -70,7 +70,7 @@ public class PreferencesController implements PreferencesApi {
             .savePreferences(xRequestId, userid, pref)))
             .map( ResponseEntity::ok)
         .onErrorResume(ProblemException.class, ex -> {
-          Logger.errorLog(xRequestId,"user preferences", null, "portal-prefs" );
+          Logger.errorLog(xRequestId,"user preferences", null, "preferences" );
           return Mono.error(ex);
         })
     .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));

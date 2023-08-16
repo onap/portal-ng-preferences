@@ -41,9 +41,9 @@ openApiGenerate {
     generateApiDocumentation = false
     generateModelTests = false
     generateModelDocumentation = false
-    invokerPackage = "org.onap.portal.prefs.openapi"
-    apiPackage = "org.onap.portal.prefs.openapi.api"
-    modelPackage = "org.onap.portal.prefs.openapi.model"
+    invokerPackage = "org.onap.portalng.preferences.openapi"
+    apiPackage = "org.onap.portalng.preferences.openapi.api"
+    modelPackage = "org.onap.portalng.preferences.openapi.model"
 }
 
 compileJava {

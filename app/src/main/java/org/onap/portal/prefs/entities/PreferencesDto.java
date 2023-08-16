@@ -19,7 +19,7 @@
  *
  */
 
-package org.onap.portal.prefs.entities;
+package org.onap.portalng.preferences.entities;
 
 import lombok.Getter;
 import lombok.Setter;

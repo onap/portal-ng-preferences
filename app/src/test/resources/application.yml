@@ -19,7 +19,7 @@ spring:
         jwt:
           jwk-set-uri: http://localhost:${wiremock.server.port}/auth/realms/ONAP/protocol/openid-connect/certs #Keycloak Endpoint
 
-portal-prefs:
+preferences:
   realm: ONAP
 
 management:

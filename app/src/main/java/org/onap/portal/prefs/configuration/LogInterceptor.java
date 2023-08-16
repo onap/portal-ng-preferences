@@ -19,9 +19,9 @@
  *
  */
 
-package org.onap.portal.prefs.configuration;
+package org.onap.portalng.preferences.configuration;
 
-import org.onap.portal.prefs.util.Logger;
+import org.onap.portalng.preferences.util.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.reactive.ServerWebExchangeContextFilter;
 import org.springframework.web.server.ServerWebExchange;
