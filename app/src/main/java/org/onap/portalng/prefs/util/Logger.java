@@ -19,7 +19,7 @@
  *
  */
 
-package org.onap.portal.prefs.util;
+package org.onap.portalng.preferences.util;
 
 import java.net.URI;
 
@@ -34,22 +34,22 @@ public class Logger {
   private Logger(){}
 
   public static void requestLog(String xRequestId, HttpMethod methode, URI path) {
-    log.info("Portal-prefs - request - X-Request-Id {} {} {}", xRequestId, methode, path);
+    log.info("Preferences - request - X-Request-Id {} {} {}", xRequestId, methode, path);
   }
 
   public static void responseLog(String xRequestId, HttpStatusCode httpStatusCode) {
-    log.info("Portal-prefs - response - X-Request-Id {} {}", xRequestId, httpStatusCode);
+    log.info("Preferences - response - X-Request-Id {} {}", xRequestId, httpStatusCode);
   }
 
   public static void errorLog(String xRequestId, String msg, String id, String app) {
     log.info(
-        "Portal-prefs - error - X-Request-Id {} {} {} not found in {}", xRequestId, msg, id, app);
+        "Preferences - error - X-Request-Id {} {} {} not found in {}", xRequestId, msg, id, app);
   }
 
   public static void errorLog(
       String xRequestId, String msg, String id, String app, String errorDetails) {
     log.info(
-        "Portal-prefs - error - X-Request-Id {} {} {} not found in {} error message: {}",
+        "Preferences - error - X-Request-Id {} {} {} not found in {} error message: {}",
         xRequestId,
         msg,
         id,

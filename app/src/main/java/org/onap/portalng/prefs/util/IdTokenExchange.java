@@ -19,7 +19,7 @@
  *
  */
 
-package org.onap.portal.prefs.util;
+package org.onap.portalng.preferences.util;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;

@@ -19,10 +19,21 @@
  *
  */
 
-package org.onap.portal.prefs.repository;
+package org.onap.portalng.preferences.entities;
 
-import org.onap.portal.prefs.entities.PreferencesDto;
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public interface PreferencesRepository extends ReactiveMongoRepository<PreferencesDto, String> {
+@Document
+@Getter
+@Setter
+public class PreferencesDto {
+  @Id
+  private String userId;
+
+  private Object properties;
+
 }
+
