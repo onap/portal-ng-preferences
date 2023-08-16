@@ -19,21 +19,19 @@
  *
  */
 
-package org.onap.portal.prefs.entities;
+package org.onap.portalng.preferences;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.onap.portalng.preferences.configuration.PreferencesConfig;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@Document
-@Getter
-@Setter
-public class PreferencesDto {
-  @Id
-  private String userId;
+@EnableConfigurationProperties(PreferencesConfig.class)
+@SpringBootApplication
+public class PreferencesApplication {
 
-  private Object properties;
+	public static void main(String[] args) {
+		SpringApplication.run(PreferencesApplication.class, args);
+	}
 
 }
-

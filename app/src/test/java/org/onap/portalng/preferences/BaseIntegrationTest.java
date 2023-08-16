@@ -19,13 +19,13 @@
  *
  */
 
-package org.onap.portal.prefs;
+package org.onap.portalng.preferences;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.nimbusds.jose.jwk.JWKSet;
-import org.onap.portal.prefs.util.IdTokenExchange;
-import org.onap.portal.prefs.configuration.PortalPrefsConfig;
+import org.onap.portalng.preferences.util.IdTokenExchange;
+import org.onap.portalng.preferences.configuration.PreferencesConfig;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -48,12 +48,12 @@ import java.util.UUID;
 public abstract class BaseIntegrationTest {
 
   @LocalServerPort protected int port;
-  @Value("${portal-prefs.realm}")
+  @Value("${preferences.realm}")
   protected String realm;
 
   @Autowired protected ObjectMapper objectMapper;
   @Autowired private TokenGenerator tokenGenerator;
-  @Autowired protected PortalPrefsConfig portalPrefsConfig;
+  @Autowired protected PreferencesConfig preferencesConfig;
 
   @BeforeAll
   public static void setup() {

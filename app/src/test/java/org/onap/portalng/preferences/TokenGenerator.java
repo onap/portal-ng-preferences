@@ -19,7 +19,7 @@
  *
  */
 
-package org.onap.portal.prefs;
+package org.onap.portalng.preferences;
 
 import java.time.Clock;
 import java.time.Duration;

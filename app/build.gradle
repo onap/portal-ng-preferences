@@ -5,7 +5,6 @@ plugins {
 	id 'io.spring.dependency-management'
 	id 'org.springframework.boot'
 	id 'jacoco'
-	id 'org.sonarqube'
 	id 'com.gorylenko.gradle-git-properties'
 }
 
@@ -15,7 +14,7 @@ sourceCompatibility = '17'
 targetCompatibility = '17'
 
 application {
-    mainClass = 'org.onap.portal.prefs.PortalPrefsApplication'
+    mainClass = 'org.onap.portalng.preferences.PreferencesApplication'
 }
 
 configurations {
@@ -81,13 +80,6 @@ jacocoTestReport {
 	}
 }
 
-sonarqube {
-	properties {
-		property "sonar.projectKey", "tnap.SONAR.portal.portal-prefs"
-		property "sonar.projectName", "portal-prefs"
-	}
-}
-
 configurations.implementation.setCanBeResolved(true)
 
 // avoid generating X.X.X-plain.jar
@@ -98,10 +90,10 @@ jar {
 springBoot {
 	buildInfo {
 		properties {
-			artifact = "onap-portal-prefs"
+			artifact = "onap-portal-ng-preferences"
 			version = rootProject.file('version').text.trim()
-			group = "org.onap"
-			name = "Portal user preferences service"
+			group = "org.onap.portalng"
+			name = "Portal-ng user preferences service"
 		}
 	}
 }

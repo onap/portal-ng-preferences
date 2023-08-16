@@ -19,13 +19,13 @@
  *
  */
 
-package org.onap.portal.prefs.services;
+package org.onap.portalng.preferences.services;
 
-import org.onap.portal.prefs.entities.PreferencesDto;
-import org.onap.portal.prefs.exception.ProblemException;
-import org.onap.portal.prefs.openapi.model.Preferences;
-import org.onap.portal.prefs.repository.PreferencesRepository;
-import org.onap.portal.prefs.util.Logger;
+import org.onap.portalng.preferences.entities.PreferencesDto;
+import org.onap.portalng.preferences.exception.ProblemException;
+import org.onap.portalng.preferences.openapi.model.Preferences;
+import org.onap.portalng.preferences.repository.PreferencesRepository;
+import org.onap.portalng.preferences.util.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +54,7 @@ public class PreferencesService {
       .save(preferencesDto)
       .map(this::toPreferences)  
       .onErrorResume(ProblemException.class, ex -> {
-        Logger.errorLog(xRequestId,"user prefrences", userId, "portal-prefs" );
+        Logger.errorLog(xRequestId,"user prefrences", userId, "preferences" );
         return Mono.error(ex);
       });
 

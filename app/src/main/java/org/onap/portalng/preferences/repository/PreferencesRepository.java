@@ -19,18 +19,10 @@
  *
  */
 
-package org.onap.portal.prefs.configuration;
+package org.onap.portalng.preferences.repository;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.onap.portalng.preferences.entities.PreferencesDto;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-
-@Data
-@ConfigurationProperties("portal-prefs")
-public class PortalPrefsConfig {
-
-    @NotBlank
-    private final String realm;
-    
+public interface PreferencesRepository extends ReactiveMongoRepository<PreferencesDto, String> {
 }
