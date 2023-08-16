@@ -19,14 +19,14 @@
  *
  */
 
-package org.onap.portal.prefs.preferences;
+package org.onap.portalng.preferences.preferences;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.onap.portal.prefs.BaseIntegrationTest;
-import org.onap.portal.prefs.openapi.model.Preferences;
-import org.onap.portal.prefs.services.PreferencesService;
+import org.onap.portalng.preferences.BaseIntegrationTest;
+import org.onap.portalng.preferences.openapi.model.Preferences;
+import org.onap.portalng.preferences.services.PreferencesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

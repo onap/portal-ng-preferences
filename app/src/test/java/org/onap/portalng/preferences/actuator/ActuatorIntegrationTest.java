@@ -19,11 +19,11 @@
  *
  */
 
-package org.onap.portal.prefs.actuator;
+package org.onap.portalng.preferences.actuator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.onap.portal.prefs.BaseIntegrationTest;
+import org.onap.portalng.preferences.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.availability.ApplicationAvailability;

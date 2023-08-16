@@ -14,15 +14,14 @@ spring:
           jwk-set-uri: ${KEYCLOAK_URL}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/certs #Keycloak Endpoint
   data:
     mongodb:
-      database: ${PORTALPREFS_DATABASE}
-      host: ${PORTALPREFS_HOST}
-      port: ${PORTALPREFS_PORT}
-      username: ${PORTALPREFS_USERNAME}
-      password: ${PORTALPREFS_PASSWORD}
+      database: ${PREFERENCES_DATABASE}
+      host: ${PREFERENCES_HOST}
+      port: ${PREFERENCES_PORT}
+      username: ${PREFERENCES_USERNAME}
+      password: ${PREFERENCES_PASSWORD}
 
-portal-prefs:
+preferences:
     realm: ${KEYCLOAK_REALM}
-
 management:
   endpoints:
     web:

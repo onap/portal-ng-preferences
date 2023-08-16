@@ -19,7 +19,7 @@
  *
  */
 
-package org.onap.portal.prefs.exception;
+package org.onap.portalng.preferences.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +33,7 @@ import org.zalando.problem.StatusType;
 
 import java.net.URI;
 
-/** The default portal-prefs exception */
+/** The default preferences exception */
 @Data
 @Builder
 @AllArgsConstructor

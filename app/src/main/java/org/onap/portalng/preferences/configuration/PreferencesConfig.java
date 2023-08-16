@@ -19,19 +19,18 @@
  *
  */
 
-package org.onap.portal.prefs;
+package org.onap.portalng.preferences.configuration;
 
-import org.onap.portal.prefs.configuration.PortalPrefsConfig;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@EnableConfigurationProperties(PortalPrefsConfig.class)
-@SpringBootApplication
-public class PortalPrefsApplication {
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-	public static void main(String[] args) {
-		SpringApplication.run(PortalPrefsApplication.class, args);
-	}
+@Data
+@ConfigurationProperties("preferences")
+public class PreferencesConfig {
 
+    @NotBlank
+    private final String realm;
+    
 }
