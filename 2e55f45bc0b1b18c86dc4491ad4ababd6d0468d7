@@ -1,0 +1,8 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Andreas Geissler <andreas-geissler@telekom.de>
+Verified+1: Andreas Geissler <andreas-geissler@telekom.de>
+Submitted-by: Andreas Geissler <andreas-geissler@telekom.de>
+Submitted-at: Thu, 31 Aug 2023 13:09:08 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/portal-ng/preferences/+/135889
+Project: portal-ng/preferences
+Branch: refs/heads/master
