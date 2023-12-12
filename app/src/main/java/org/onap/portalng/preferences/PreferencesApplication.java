@@ -21,13 +21,14 @@
 
 package org.onap.portalng.preferences;
 
+import org.onap.portalng.preferences.logging.LoggerProperties;
 import org.onap.portalng.preferences.configuration.PreferencesConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@EnableConfigurationProperties(PreferencesConfig.class)
 @SpringBootApplication
+@EnableConfigurationProperties({PreferencesConfig.class, LoggerProperties.class})
 public class PreferencesApplication {
 
 	public static void main(String[] args) {
