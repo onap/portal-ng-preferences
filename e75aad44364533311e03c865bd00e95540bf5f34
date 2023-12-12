@@ -1,0 +1,8 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Stefan Rothmajer <stefan.rothmajer@telekom.com>
+Submitted-by: Fiete Ostkamp <fiete.ostkamp@telekom.de>
+Submitted-at: Tue, 12 Dec 2023 12:20:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/portal-ng/preferences/+/136826
+Project: portal-ng/preferences
+Branch: refs/heads/master
