@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Stefan Dierichs <s.dierichs@telekom.de>
+Submitted-by: Fiete Ostkamp <fiete.ostkamp@telekom.de>
+Submitted-at: Tue, 23 Jan 2024 07:50:20 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/portal-ng/preferences/+/137067
+Project: portal-ng/preferences
+Branch: refs/heads/master
