@@ -9,9 +9,9 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.openapitools:openapi-generator:7.0.0-beta'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux:3.1.2'
-    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	compileOnly 'org.openapitools:openapi-generator:7.0.0-beta'
+	compileOnly 'org.springframework.boot:spring-boot-starter-webflux:3.1.2'
+    compileOnly 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     constraints {
         implementation('io.swagger.core.v3:swagger-annotations:2.2.5') {

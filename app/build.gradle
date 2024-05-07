@@ -8,10 +8,22 @@ plugins {
 	id 'com.gorylenko.gradle-git-properties'
 }
 
+def appVersion = getAppVersion()
 group = 'org.onap'
-version = '0.1.1'
+version = appVersion
 sourceCompatibility = '17'
 targetCompatibility = '17'
+
+springBoot {
+	buildInfo {
+		properties {
+			artifact = "onap-portal-ng-preferences"
+			version = appVersion
+			group = "org.onap.portalng"
+			name = "Portal-ng user preferences service"
+		}
+	}
+}
 
 application {
     mainClass = 'org.onap.portalng.preferences.PreferencesApplication'
@@ -21,9 +33,6 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-
-	// avoid "LoggerFactory is not a Logback LoggerContext but Logback is on the classpath" error
-    all*.exclude module : 'logback-classic'
 }
 
 repositories {
@@ -93,13 +102,18 @@ jar {
     enabled = false
 }
 
-springBoot {
-	buildInfo {
-		properties {
-			artifact = "onap-portal-ng-preferences"
-			version = rootProject.file('version').text.trim()
-			group = "org.onap.portalng"
-			name = "Portal-ng user preferences service"
-		}
+def String getAppVersion() {
+	Properties versionProperties = getVersionProperties()
+	String major = versionProperties.getProperty('major')
+	String minor = versionProperties.getProperty('minor')
+	String patch = versionProperties.getProperty('patch')
+	return major + '.' + minor + '.' + patch
+}
+
+def Properties getVersionProperties() {
+	def versionProperties = new Properties()
+	rootProject.file('version.properties').withInputStream {
+			versionProperties.load(it)
 	}
+	return versionProperties
 }
