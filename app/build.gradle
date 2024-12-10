@@ -62,10 +62,10 @@ dependencies {
 	implementation "org.zalando:problem:$problemVersion"
 	implementation "net.logstash.logback:logstash-logback-encoder:$logstashLogbackVersion"
 
-	implementation(platform("io.micrometer:micrometer-tracing-bom:$micrometerVersion"))
-	implementation("io.micrometer:micrometer-tracing")
-	implementation("io.micrometer:micrometer-tracing-bridge-otel")
-	implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
+	implementation 'io.micrometer:micrometer-tracing'
+	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+	implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 
 	compileOnly 'org.projectlombok:lombok'
 
