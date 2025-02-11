@@ -101,6 +101,23 @@
       "message": "jjb-deploy portal-ng-preferences-gradle-build-master",
       "revId": "45508acf415af533a95656815ccc7427d7c86e0d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1451a65d_55b50fe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 47
+      },
+      "writtenOn": "2025-02-11T00:21:20Z",
+      "side": 1,
+      "message": "jjb-deploy portal-ng-preferences-gradle-build-master",
+      "revId": "45508acf415af533a95656815ccc7427d7c86e0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
