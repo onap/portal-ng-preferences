@@ -29,6 +29,8 @@ import org.onap.portalng.preferences.util.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import reactor.core.publisher.Mono;
 
 @Service
@@ -37,10 +39,13 @@ public class PreferencesService {
   @Autowired
   private PreferencesRepository repository;
 
+  @Autowired
+  private ObjectMapper objectMapper;
+
   public Mono<Preferences> getPreferences(String userId){
-    return repository
+    return Mono.just(repository
       .findById(userId)
-      .switchIfEmpty(defaultPreferences())
+      .orElse(defaultPreferences()))
       .map(this::toPreferences);
   }
 
@@ -48,11 +53,10 @@ public class PreferencesService {
 
     var preferencesDto = new PreferencesDto();
     preferencesDto.setUserId(userId);
-    preferencesDto.setProperties(preferences.getProperties());
+    preferencesDto.setProperties(objectMapper.valueToTree(preferences.getProperties()));
 
-    return repository
-      .save(preferencesDto)
-      .map(this::toPreferences)  
+    return Mono.just(repository.save(preferencesDto))
+      .map(this::toPreferences)
       .onErrorResume(ProblemException.class, ex -> {
         Logger.errorLog(xRequestId,"user prefrences", userId, "preferences" );
         return Mono.error(ex);
@@ -63,7 +67,7 @@ public class PreferencesService {
   private Preferences toPreferences(PreferencesDto preferencesDto) {
     var preferences = new Preferences();
     preferences.setProperties(preferencesDto.getProperties());
-    return preferences; 
+    return preferences;
   }
 
   /**
@@ -72,9 +76,9 @@ public class PreferencesService {
    * b) for security reasons
    * @return PreferencesDto
    */
-  private Mono<PreferencesDto> defaultPreferences() {
+  private PreferencesDto defaultPreferences() {
     var preferencesDto = new PreferencesDto();
-    preferencesDto.setProperties("");
-    return Mono.just(preferencesDto);
+    preferencesDto.setProperties(null);
+    return preferencesDto;
   }
 }
