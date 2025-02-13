@@ -22,7 +22,7 @@
 package org.onap.portalng.preferences.repository;
 
 import org.onap.portalng.preferences.entities.PreferencesDto;
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PreferencesRepository extends ReactiveMongoRepository<PreferencesDto, String> {
+public interface PreferencesRepository extends JpaRepository<PreferencesDto, String> {
 }

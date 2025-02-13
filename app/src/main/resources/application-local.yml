@@ -19,6 +19,12 @@ spring:
       port: 27017
       username: root
       password: password
+  datasource:
+    url: jdbc:postgresql://localhost:5441/cellsites
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
 
 preferences:
     realm: ONAP

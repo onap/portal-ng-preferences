@@ -45,11 +45,7 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
     void thatUserPreferencesCanBeRetrieved() {
         // First save a user preference before a GET can run
         Preferences expectedResponse = new Preferences()
-            .properties("{\n" +
-                "    \"properties\": { \"appStarter\": \"value1\",\n" +
-                "    \"dashboard\": {\"key1:\" : \"value2\"}\n" +
-                "    } \n" +
-                "}");
+            .properties("{\"properties\": {\"dashboard\": {\"key1:\": \"value2\"}, \"appStarter\": \"value1\"}}");
         preferencesService
             .savePreferences(X_REQUEST_ID,"test-user", expectedResponse)
             .block();
@@ -69,7 +65,7 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
         assertThat(actualResponse).isNotNull();
         assertThat(actualResponse.getProperties()).isEqualTo(expectedResponse.getProperties());
     }
-    
+
     @Test
     void thatUserPreferencesCanNotBeRetrieved() {
         unauthenticatedRequestSpecification()
