@@ -38,9 +38,9 @@ public class PreferencesService {
   private PreferencesRepository repository;
 
   public Mono<Preferences> getPreferences(String userId){
-    return repository
+    return Mono.just(repository
       .findById(userId)
-      .switchIfEmpty(defaultPreferences())
+      .orElse(defaultPreferences()))
       .map(this::toPreferences);
   }
 
@@ -50,9 +50,9 @@ public class PreferencesService {
     preferencesDto.setUserId(userId);
     preferencesDto.setProperties(preferences.getProperties());
 
-    return repository
-      .save(preferencesDto)
-      .map(this::toPreferences)  
+    return Mono.just(repository
+      .save(preferencesDto))
+      .map(this::toPreferences)
       .onErrorResume(ProblemException.class, ex -> {
         Logger.errorLog(xRequestId,"user prefrences", userId, "preferences" );
         return Mono.error(ex);
@@ -63,7 +63,7 @@ public class PreferencesService {
   private Preferences toPreferences(PreferencesDto preferencesDto) {
     var preferences = new Preferences();
     preferences.setProperties(preferencesDto.getProperties());
-    return preferences; 
+    return preferences;
   }
 
   /**
@@ -72,9 +72,9 @@ public class PreferencesService {
    * b) for security reasons
    * @return PreferencesDto
    */
-  private Mono<PreferencesDto> defaultPreferences() {
+  private PreferencesDto defaultPreferences() {
     var preferencesDto = new PreferencesDto();
     preferencesDto.setProperties("");
-    return Mono.just(preferencesDto);
+    return preferencesDto;
   }
 }
