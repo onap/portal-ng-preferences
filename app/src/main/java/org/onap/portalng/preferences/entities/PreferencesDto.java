@@ -23,17 +23,28 @@ package org.onap.portalng.preferences.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+import java.util.Map;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
 @Getter
 @Setter
+@Table(name = "preferences")
 public class PreferencesDto {
   @Id
   private String userId;
 
-  private Object properties;
+  @JdbcTypeCode(SqlTypes.JSON)
+  private JsonNode properties;
 
 }
 
