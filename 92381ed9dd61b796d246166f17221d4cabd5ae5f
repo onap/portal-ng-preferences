@@ -33,6 +33,23 @@
       "message": "recheck",
       "revId": "92381ed9dd61b796d246166f17221d4cabd5ae5f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a181ac_5f553fed",
+        "filename": "app/src/main/java/org/onap/portalng/preferences/services/PreferencesService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7849
+      },
+      "writtenOn": "2025-03-13T07:16:15Z",
+      "side": 1,
+      "message": "Can we use constructor injection (private final ... + `@RequiredArgsConstructor`) here for both `PreferencesRepository` and `ObjectMapper`?",
+      "revId": "92381ed9dd61b796d246166f17221d4cabd5ae5f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
