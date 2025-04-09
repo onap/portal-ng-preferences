@@ -82,11 +82,13 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void thatUserPreferencesCanBeSaved() {
         Preferences expectedResponse = new Preferences()
-            .properties("{\n" +
-                "    \"properties\": { \"appStarter\": \"value1\",\n" +
-                "    \"dashboard\": {\"key1:\" : \"value2\"}\n" +
-                "    } \n" +
-                "}");
+            .properties("""
+                {
+                    "properties": { "appStarter": "value1",
+                    "dashboard": {"key1:" : "value2"}
+                    }\s
+                }\
+                """);
         Preferences actualResponse = requestSpecification()
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -109,21 +111,25 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
     void thatUserPreferencesCanBeUpdated() {
         // First save a user preference before a GET can run
         Preferences initialPreferences = new Preferences()
-            .properties("{\n" +
-                "    \"properties\": { \"appStarter\": \"value1\",\n" +
-                "    \"dashboard\": {\"key1:\" : \"value2\"}\n" +
-                "    } \n" +
-                "}");
+            .properties("""
+                {
+                    "properties": { "appStarter": "value1",
+                    "dashboard": {"key1:" : "value2"}
+                    }\s
+                }\
+                """);
         preferencesService
             .savePreferences(X_REQUEST_ID,"test-user", initialPreferences)
             .block();
 
         Preferences expectedResponse = new Preferences()
-            .properties("{\n" +
-                "    \"properties\": { \"appStarter\": \"value3\",\n" +
-                "    \"dashboard\": {\"key2:\" : \"value4\"}\n" +
-                "    } \n" +
-                "}");
+            .properties("""
+                {
+                    "properties": { "appStarter": "value3",
+                    "dashboard": {"key2:" : "value4"}
+                    }\s
+                }\
+                """);
         Preferences actualResponse = requestSpecification("test-user")
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)

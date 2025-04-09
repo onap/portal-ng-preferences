@@ -45,7 +45,7 @@ repositories {
 ext {
   problemVersion = '0.27.1'
   logstashLogbackVersion = '7.2'
-  springCloudWiremockVersion = '4.0.3'
+  springCloudWiremockVersion = '4.1.5'
   micrometerVersion = '1.0.0'
   liquibaseCoreVersion = '4.31.0'
 }
