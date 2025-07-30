@@ -56,6 +56,11 @@ committers:
       company: 'Deutsche Telekom AG'
       id: 'marian.vaclavik'
       timezone: "Europe/Bratislava"
+    - name: 'Ben Zelleröhr'
+      email: 'ben.zelleroehr@telekom.de'
+      company: 'Deutsche Telekom AG'
+      id: 'benzelleroehr'
+      timezone: "Europe/Berlin"
 tsc:
     # yamllint disable rule:line-length
     approval: 'https://wiki.onap.org/pages/viewpage.action?spaceKey=Meetings&title=TSC+2022-12-08'

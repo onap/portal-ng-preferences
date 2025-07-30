@@ -14,7 +14,7 @@ Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 X-Auth-Identity: Bearer {{id_token}}
-X-Request-Id: {{$uuid}}
+x-b3-spanid: {{$uuid}}
 
 {
   "properties": {
@@ -41,7 +41,7 @@ GET http://localhost:9001/v1/preferences
 Accept: application/json
 Authorization: Bearer {{access_token}}
 X-Auth-Identity: Bearer {{id_token}}
-X-Request-Id: {{$uuid}}
+x-b3-spanid: {{$uuid}}
 
 ###
 
