@@ -1,17 +1,20 @@
 openapi: 3.0.2
 info:
-  title: Config API
-  version: '1.0'
+  title: Portal NG Preferences
+  version: '1.1'
+  description: Portal NG Preferences
+  contact:
+    name: ONAP
 servers:
-  - url: 'http://localhost:9001/'
+  - url: http://localhost:9001
+tags:
+  - name: preferences
 paths:
   /v1/preferences:
     get:
       description: Returns user preferences
       summary: Get user preferences
       operationId: getPreferences
-      parameters:
-        - $ref: '#/components/parameters/XRequestIdHeader'
       tags:
         - preferences
       responses:
@@ -35,8 +38,6 @@ paths:
       description: Updates user preferences
       summary: Update user preferences
       operationId: updatePreferences
-      parameters:
-        - $ref: '#/components/parameters/XRequestIdHeader'
       tags:
         - preferences
       requestBody:
@@ -66,8 +67,6 @@ paths:
       description: Save user preferences
       summary: Save user preferences
       operationId: savePreferences
-      parameters:
-        - $ref: '#/components/parameters/XRequestIdHeader'
       tags:
         - preferences
       requestBody:
@@ -94,14 +93,6 @@ paths:
         '502':
           $ref: '#/components/responses/BadGateway'
 components:
-  parameters:
-    XRequestIdHeader:
-      name: X-Request-Id
-      in: header
-      description: The unique identifier of the request
-      required: true
-      schema:
-        type: string
   schemas:
     Preferences:
       type: object
@@ -152,85 +143,45 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     Unauthorized:
       description: '401: Unauthorized'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     Forbidden:
       description: '403: Forbidden'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     NotFound:
       description: '404: Not Found'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     NotAllowed:
       description: '405: Method Not Allowed'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     Conflict:
       description: '409: Conflict'
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     InternalServerError:
       description: Internal Server Error
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response
     BadGateway:
       description: Bad Gateway
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
-      headers:
-        X-Request-Id:
-          schema:
-            type: string
-          description: A <uuid4> in each response

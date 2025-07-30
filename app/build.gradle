@@ -11,8 +11,6 @@ plugins {
 def appVersion = getAppVersion()
 group = 'org.onap'
 version = appVersion
-sourceCompatibility = '17'
-targetCompatibility = '17'
 
 springBoot {
 	buildInfo {

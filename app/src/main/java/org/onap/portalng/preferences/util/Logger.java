@@ -31,26 +31,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Logger {
 
-  private Logger(){}
-
-  public static void requestLog(String xRequestId, HttpMethod methode, URI path) {
-    log.info("Preferences - request - X-Request-Id {} {} {}", xRequestId, methode, path);
+  private Logger() {
   }
 
-  public static void responseLog(String xRequestId, HttpStatusCode httpStatusCode) {
-    log.info("Preferences - response - X-Request-Id {} {}", xRequestId, httpStatusCode);
+  public static void requestLog(HttpMethod methode, URI path) {
+    log.info("Preferences - request - {} {}", methode, path);
   }
 
-  public static void errorLog(String xRequestId, String msg, String id, String app) {
+  public static void responseLog(HttpStatusCode httpStatusCode) {
+    log.info("Preferences - response - {}", httpStatusCode);
+  }
+
+  public static void errorLog(String msg, String id, String app) {
     log.info(
-        "Preferences - error - X-Request-Id {} {} {} not found in {}", xRequestId, msg, id, app);
+        "Preferences - error - {} {} not found in {}", msg, id, app);
   }
 
   public static void errorLog(
-      String xRequestId, String msg, String id, String app, String errorDetails) {
+      String msg, String id, String app, String errorDetails) {
     log.info(
-        "Preferences - error - X-Request-Id {} {} {} not found in {} error message: {}",
-        xRequestId,
+        "Preferences - error - {} {} not found in {} error message: {}",
         msg,
         id,
         app,
