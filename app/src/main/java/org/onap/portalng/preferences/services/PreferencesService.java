@@ -21,17 +21,14 @@
 
 package org.onap.portalng.preferences.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.onap.portalng.preferences.entities.PreferencesDto;
 import org.onap.portalng.preferences.exception.ProblemException;
 import org.onap.portalng.preferences.openapi.model.PreferencesApiDto;
 import org.onap.portalng.preferences.repository.PreferencesRepository;
 import org.onap.portalng.preferences.util.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -43,9 +40,7 @@ public class PreferencesService {
   private final ObjectMapper objectMapper;
 
   public Mono<PreferencesApiDto> getPreferences(String userId) {
-    return Mono.just(repository
-        .findById(userId)
-        .orElse(defaultPreferences()))
+    return Mono.just(repository.findById(userId).orElse(defaultPreferences()))
         .map(this::toPreferences);
   }
 
@@ -57,11 +52,12 @@ public class PreferencesService {
 
     return Mono.just(repository.save(preferencesDto))
         .map(this::toPreferences)
-        .onErrorResume(ProblemException.class, ex -> {
-          Logger.errorLog("user prefrences", userId, "preferences");
-          return Mono.error(ex);
-        });
-
+        .onErrorResume(
+            ProblemException.class,
+            ex -> {
+              Logger.errorLog("user prefrences", userId, "preferences");
+              return Mono.error(ex);
+            });
   }
 
   private PreferencesApiDto toPreferences(PreferencesDto preferencesDto) {
@@ -71,9 +67,8 @@ public class PreferencesService {
   }
 
   /**
-   * Get a Preferences object that is initialised with an empty string.
-   * This is a) for convenience to not handle 404 on the consuming side and
-   * b) for security reasons
+   * Get a Preferences object that is initialised with an empty string. This is a) for convenience
+   * to not handle 404 on the consuming side and b) for security reasons
    *
    * @return PreferencesDto
    */

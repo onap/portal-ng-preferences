@@ -23,6 +23,15 @@ package org.onap.portalng.preferences.repository;
 
 import org.onap.portalng.preferences.entities.PreferencesDto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public interface PreferencesRepository extends JpaRepository<PreferencesDto, String> {
+  @Modifying
+  @Transactional
+  @Query(value = "TRUNCATE TABLE preferences", nativeQuery = true)
+  void truncateTable();
 }

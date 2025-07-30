@@ -19,30 +19,28 @@
  *
  */
 
-package org.onap.portalng.preferences.actuator;
+package org.onap.portalng.preferences;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.onap.portalng.preferences.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.availability.ApplicationAvailability;
 import org.springframework.boot.availability.LivenessState;
 import org.springframework.boot.availability.ReadinessState;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class ActuatorIntegrationTest extends BaseIntegrationTest {
-    
-    @Autowired private ApplicationAvailability applicationAvailability;
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class AcutatorIntegrationTest {
+  @Autowired private ApplicationAvailability applicationAvailability;
 
-    @Test
-    void livenessProbeIsAvailable() {
-      assertThat(applicationAvailability.getLivenessState()).isEqualTo(LivenessState.CORRECT);
-    }
-  
-    @Test
-    void readinessProbeIsAvailable() {
-  
-      assertThat(applicationAvailability.getReadinessState())
-          .isEqualTo(ReadinessState.ACCEPTING_TRAFFIC);
-    }
+  @Test
+  void livenessProbeIsAvailable() {
+    assertEquals(applicationAvailability.getLivenessState(), LivenessState.CORRECT);
+  }
+
+  @Test
+  void readinessProbeIsAvailable() {
+    assertEquals(applicationAvailability.getReadinessState(), ReadinessState.ACCEPTING_TRAFFIC);
+  }
 }
