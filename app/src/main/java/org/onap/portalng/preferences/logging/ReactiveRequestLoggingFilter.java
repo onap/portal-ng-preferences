@@ -21,6 +21,8 @@
 
 package org.onap.portalng.preferences.logging;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -29,9 +31,6 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 @Slf4j
 @Component
@@ -79,7 +78,8 @@ public class ReactiveRequestLoggingFilter implements WebFilter {
     boolean loggingDisabled = loggerProperties.enabled() == null || !loggerProperties.enabled();
 
     boolean urlShouldBeSkipped =
-        WebExchangeUtils.matchUrlsPatternsToPath(loggerProperties.excludePaths(), exchange.getRequest().getPath().value());
+        WebExchangeUtils.matchUrlsPatternsToPath(
+            loggerProperties.excludePaths(), exchange.getRequest().getPath().value());
 
     return loggingDisabled || urlShouldBeSkipped;
   }

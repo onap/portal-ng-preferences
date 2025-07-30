@@ -21,6 +21,7 @@
 
 package org.onap.portalng.preferences.configuration;
 
+import java.util.List;
 import org.onap.portalng.preferences.util.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -30,12 +31,10 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Component
 public class LogInterceptor implements WebFilter {
-  public static final String EXCHANGE_CONTEXT_ATTRIBUTE = ServerWebExchangeContextFilter.class.getName()
-      + ".EXCHANGE_CONTEXT";
+  public static final String EXCHANGE_CONTEXT_ATTRIBUTE =
+      ServerWebExchangeContextFilter.class.getName() + ".EXCHANGE_CONTEXT";
 
   @Value("${logger.traceIdHeaderName}")
   public static String X_REQUEST_ID;
@@ -45,13 +44,15 @@ public class LogInterceptor implements WebFilter {
     List<String> xRequestIdList = exchange.getRequest().getHeaders().get(X_REQUEST_ID);
     if (xRequestIdList != null && !xRequestIdList.isEmpty()) {
       String xRequestId = xRequestIdList.get(0);
-      Logger.requestLog(
-          exchange.getRequest().getMethod(), exchange.getRequest().getURI());
+      Logger.requestLog(exchange.getRequest().getMethod(), exchange.getRequest().getURI());
       exchange.getResponse().getHeaders().add(X_REQUEST_ID, xRequestId);
-      exchange.getResponse().beforeCommit(() -> {
-        Logger.responseLog(exchange.getResponse().getStatusCode());
-        return Mono.empty();
-      });
+      exchange
+          .getResponse()
+          .beforeCommit(
+              () -> {
+                Logger.responseLog(exchange.getResponse().getStatusCode());
+                return Mono.empty();
+              });
     }
 
     return chain

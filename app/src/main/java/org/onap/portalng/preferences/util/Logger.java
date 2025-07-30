@@ -22,17 +22,14 @@
 package org.onap.portalng.preferences.util;
 
 import java.net.URI;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Logger {
 
-  private Logger() {
-  }
+  private Logger() {}
 
   public static void requestLog(HttpMethod methode, URI path) {
     log.info("Preferences - request - {} {}", methode, path);
@@ -43,12 +40,10 @@ public class Logger {
   }
 
   public static void errorLog(String msg, String id, String app) {
-    log.info(
-        "Preferences - error - {} {} not found in {}", msg, id, app);
+    log.info("Preferences - error - {} {} not found in {}", msg, id, app);
   }
 
-  public static void errorLog(
-      String msg, String id, String app, String errorDetails) {
+  public static void errorLog(String msg, String id, String app, String errorDetails) {
     log.info(
         "Preferences - error - {} {} not found in {} error message: {}",
         msg,
