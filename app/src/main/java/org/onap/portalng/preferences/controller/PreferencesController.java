@@ -31,7 +31,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
-
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -45,37 +44,36 @@ public class PreferencesController implements PreferencesApi {
 
   @Override
   public Mono<ResponseEntity<PreferencesApiDto>> getPreferences(ServerWebExchange exchange) {
-    return IdTokenExchange
-        .extractUserId(exchange)
-        .flatMap(userid -> preferencesService.getPreferences(userid)
-            .map(ResponseEntity::ok))
-        .onErrorResume(ProblemException.class, ex -> {
-          Logger.errorLog("user preferences", null, "preferences");
-          return Mono.error(ex);
-        })
+    return IdTokenExchange.extractUserId(exchange)
+        .flatMap(userid -> preferencesService.getPreferences(userid).map(ResponseEntity::ok))
+        .onErrorResume(
+            ProblemException.class,
+            ex -> {
+              Logger.errorLog("user preferences", null, "preferences");
+              return Mono.error(ex);
+            })
         .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
   }
 
   @Override
-  public Mono<ResponseEntity<PreferencesApiDto>> savePreferences(Mono<PreferencesApiDto> preferences,
-      ServerWebExchange exchange) {
-    return IdTokenExchange
-        .extractUserId(exchange)
-        .flatMap(userid -> preferences
-            .flatMap(pref -> preferencesService
-                .savePreferences(userid, pref)))
+  public Mono<ResponseEntity<PreferencesApiDto>> savePreferences(
+      Mono<PreferencesApiDto> preferences, ServerWebExchange exchange) {
+    return IdTokenExchange.extractUserId(exchange)
+        .flatMap(
+            userid -> preferences.flatMap(pref -> preferencesService.savePreferences(userid, pref)))
         .map(ResponseEntity::ok)
-        .onErrorResume(ProblemException.class, ex -> {
-          Logger.errorLog("user preferences", null, "preferences");
-          return Mono.error(ex);
-        })
+        .onErrorResume(
+            ProblemException.class,
+            ex -> {
+              Logger.errorLog("user preferences", null, "preferences");
+              return Mono.error(ex);
+            })
         .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
   }
 
   @Override
-  public Mono<ResponseEntity<PreferencesApiDto>> updatePreferences(Mono<PreferencesApiDto> preferences,
-      ServerWebExchange exchange) {
+  public Mono<ResponseEntity<PreferencesApiDto>> updatePreferences(
+      Mono<PreferencesApiDto> preferences, ServerWebExchange exchange) {
     return savePreferences(preferences, exchange);
   }
-
 }

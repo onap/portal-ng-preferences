@@ -21,17 +21,16 @@
 
 package org.onap.portalng.preferences.configuration;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-/**
- * Configures the access control of the API endpoints.
- */
+/** Configures the access control of the API endpoints. */
 // https://hantsy.github.io/spring-reactive-sample/security/config.html
 @EnableWebFluxSecurity
 @Configuration
@@ -39,15 +38,18 @@ public class SecurityConfig {
 
   @Bean
   public SecurityWebFilterChain springSecurityWebFilterChain(ServerHttpSecurity http) {
-    return http
-        .httpBasic(basic -> basic.disable())
+    return http.httpBasic(basic -> basic.disable())
         .formLogin(login -> login.disable())
         .csrf(csrf -> csrf.disable())
-        .cors(Customizer.withDefaults())
-        .authorizeExchange(exchange -> exchange
-            .pathMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-            .anyExchange().authenticated())
-        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+        .cors(withDefaults())
+        .authorizeExchange(
+            exchange ->
+                exchange
+                    .pathMatchers(HttpMethod.GET, "/actuator/**")
+                    .permitAll()
+                    .anyExchange()
+                    .authenticated())
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
         .build();
   }
 }
