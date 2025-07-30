@@ -26,26 +26,25 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * Represents a function that handles the
- * <a href="https://jwt.io/introduction">JWT</a> identity token.
- * Use this to check if the incoming requests are authorized to call the given
- * endpoint
+ * Represents a function that handles the <a href="https://jwt.io/introduction">JWT</a> identity
+ * token. Use this to check if the incoming requests are authorized to call the given endpoint
  */
-
 public final class IdTokenExchange {
 
   public static final String JWT_CLAIM_USERID = "sub";
 
-  private IdTokenExchange() {
+  private IdTokenExchange() {}
 
-  }
   /**
    * Extract the <code>userId</code> from the given {@link ServerWebExchange}
+   *
    * @param exchange the ServerWebExchange that contains information about the incoming request
    * @return the id of the user
    */
   public static Mono<String> extractUserId(ServerWebExchange exchange) {
-    return exchange.getPrincipal().cast(JwtAuthenticationToken.class)
+    return exchange
+        .getPrincipal()
+        .cast(JwtAuthenticationToken.class)
         .map(auth -> auth.getToken().getClaimAsString(JWT_CLAIM_USERID));
   }
 }
