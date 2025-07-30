@@ -12,6 +12,8 @@ tags:
 paths:
   /v1/preferences:
     get:
+      security:
+        - bearerAuth: []
       description: Returns user preferences
       summary: Get user preferences
       operationId: getPreferences
@@ -35,6 +37,8 @@ paths:
         '502':
           $ref: '#/components/responses/BadGateway'
     put:
+      security:
+        - bearerAuth: []
       description: Updates user preferences
       summary: Update user preferences
       operationId: updatePreferences
@@ -64,6 +68,8 @@ paths:
         '502':
           $ref: '#/components/responses/BadGateway'
     post:
+      security:
+        - bearerAuth: []
       description: Save user preferences
       summary: Save user preferences
       operationId: savePreferences
@@ -185,3 +191,8 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/Problem'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

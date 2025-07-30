@@ -54,7 +54,6 @@ public class PreferencesController implements PreferencesApi {
           return Mono.error(ex);
         })
         .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-
   }
 
   @Override

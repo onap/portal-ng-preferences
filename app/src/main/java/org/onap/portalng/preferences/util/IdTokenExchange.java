@@ -21,68 +21,31 @@
 
 package org.onap.portalng.preferences.util;
 
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.JWTParser;
-
-import java.text.ParseException;
-
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * Represents a function that handles the <a href="https://jwt.io/introduction">JWT</a> identity token.
- * Use this to check if the incoming requests are authorized to call the given endpoint
+ * Represents a function that handles the
+ * <a href="https://jwt.io/introduction">JWT</a> identity token.
+ * Use this to check if the incoming requests are authorized to call the given
+ * endpoint
  */
 
 public final class IdTokenExchange {
 
-  public static final String X_AUTH_IDENTITY_HEADER = "X-Auth-Identity";
   public static final String JWT_CLAIM_USERID = "sub";
 
-  private IdTokenExchange(){
+  private IdTokenExchange() {
 
   }
-
-  /**
-   * Extract the identity header from the given {@link ServerWebExchange}.
-   * @param exchange the ServerWebExchange that contains information about the incoming request
-   * @return the identity header in the form of <code>Bearer {@literal <Token>}<c/ode>
-   */
-  private static Mono<String> extractIdentityHeader(ServerWebExchange exchange) {
-    return Mono.just(exchange.getRequest().getHeaders().getOrEmpty(X_AUTH_IDENTITY_HEADER))
-        .map(headers -> headers.get(0))
-        .onErrorResume(Exception.class, ex -> Mono.error(ex));
-  }
-
-    /**
-   * Extract the identity token from the given {@link ServerWebExchange}.
-   * @see <a href="https://openid.net/specs/openid-connect-core-1_0.html#IDToken">OpenId Connect ID Token</a>
-   * @param exchange the ServerWebExchange that contains information about the incoming request
-   * @return the identity token that contains user roles
-   */
-  private static Mono<String> extractIdToken(ServerWebExchange exchange) {
-    return extractIdentityHeader(exchange)
-        .map(identityHeader -> identityHeader.replace("Bearer ", ""));
-  }
-
   /**
    * Extract the <code>userId</code> from the given {@link ServerWebExchange}
    * @param exchange the ServerWebExchange that contains information about the incoming request
    * @return the id of the user
    */
   public static Mono<String> extractUserId(ServerWebExchange exchange) {
-    return extractIdToken(exchange)
-        .flatMap(idToken -> extractUserClaim(idToken));
-  }
-
-  private static Mono<String> extractUserClaim(String idToken) {
-    JWTClaimsSet jwtClaimSet;
-	try {
-		jwtClaimSet = JWTParser.parse(idToken).getJWTClaimsSet();
-	} catch (ParseException e) {
-		return Mono.error(e);
-	}
-    return Mono.just(String.class.cast(jwtClaimSet.getClaim(JWT_CLAIM_USERID)));
+    return exchange.getPrincipal().cast(JwtAuthenticationToken.class)
+        .map(auth -> auth.getToken().getClaimAsString(JWT_CLAIM_USERID));
   }
 }
-

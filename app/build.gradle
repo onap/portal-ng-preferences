@@ -36,7 +36,7 @@ configurations {
 repositories {
 	mavenCentral()
 	maven {
-		url "https://plugins.gradle.org/m2/"
+		url = "https://plugins.gradle.org/m2/"
 	}
 }
 
@@ -94,8 +94,6 @@ jacocoTestReport {
 		xml.required = true
 	}
 }
-
-configurations.implementation.setCanBeResolved(true)
 
 // avoid generating X.X.X-plain.jar
 jar {
