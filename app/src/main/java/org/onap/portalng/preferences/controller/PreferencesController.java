@@ -20,9 +20,10 @@
  */
 
 package org.onap.portalng.preferences.controller;
+
 import org.onap.portalng.preferences.exception.ProblemException;
 import org.onap.portalng.preferences.openapi.api.PreferencesApi;
-import org.onap.portalng.preferences.openapi.model.Preferences;
+import org.onap.portalng.preferences.openapi.model.PreferencesApiDto;
 import org.onap.portalng.preferences.services.PreferencesService;
 import org.onap.portalng.preferences.util.IdTokenExchange;
 import org.onap.portalng.preferences.util.Logger;
@@ -36,49 +37,46 @@ import reactor.core.publisher.Mono;
 @RestController
 public class PreferencesController implements PreferencesApi {
 
+    private final PreferencesService preferencesService;
 
-  private final PreferencesService preferencesService;
+    public PreferencesController(PreferencesService getPreferences) {
+        this.preferencesService = getPreferences;
+    }
 
-  public PreferencesController(PreferencesService getPreferences){
-    this.preferencesService = getPreferences;
-  }
+    @Override
+    public Mono<ResponseEntity<PreferencesApiDto>> getPreferences(ServerWebExchange exchange) {
+        return IdTokenExchange
+                .extractUserId(exchange)
+                .flatMap(userid -> preferencesService.getPreferences(userid)
+                        .map(ResponseEntity::ok))
+                .onErrorResume(ProblemException.class, ex -> {
+                    Logger.errorLog("user preferences", null, "preferences");
+                    return Mono.error(ex);
+                })
+                .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
 
-  @Override
-  public Mono<ResponseEntity<Preferences>> getPreferences(String xRequestId, ServerWebExchange exchange) {
-    return IdTokenExchange
-      .extractUserId(exchange)
-      .flatMap(userid ->
-        preferencesService.getPreferences(userid)
-          .map(ResponseEntity::ok))
-          .onErrorResume(ProblemException.class, ex -> {
-              Logger.errorLog(xRequestId,"user preferences", null, "preferences" );
-              return Mono.error(ex);
-          })
-      .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
 
-  }
+    @Override
+    public Mono<ResponseEntity<PreferencesApiDto>> savePreferences(Mono<PreferencesApiDto> preferences,
+            ServerWebExchange exchange) {
+        return IdTokenExchange
+                .extractUserId(exchange)
+                .flatMap(userid -> preferences
+                        .flatMap(pref -> preferencesService
+                                .savePreferences(userid, pref)))
+                .map(ResponseEntity::ok)
+                .onErrorResume(ProblemException.class, ex -> {
+                    Logger.errorLog("user preferences", null, "preferences");
+                    return Mono.error(ex);
+                })
+                .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+    }
 
-  @Override
-  public Mono<ResponseEntity<Preferences>> savePreferences(String xRequestId, Mono<Preferences> preferences,
-                                                           ServerWebExchange exchange) {
-  return IdTokenExchange
-    .extractUserId(exchange)
-    .flatMap(userid ->
-      preferences
-        .flatMap( pref ->
-          preferencesService
-            .savePreferences(xRequestId, userid, pref)))
-            .map( ResponseEntity::ok)
-        .onErrorResume(ProblemException.class, ex -> {
-          Logger.errorLog(xRequestId,"user preferences", null, "preferences" );
-          return Mono.error(ex);
-        })
-    .onErrorReturn(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
-  }
-
-  @Override
-  public Mono<ResponseEntity<Preferences>> updatePreferences(String xRequestId, Mono<Preferences> preferences, ServerWebExchange exchange) {
-    return savePreferences(xRequestId, preferences, exchange);
-  }
+    @Override
+    public Mono<ResponseEntity<PreferencesApiDto>> updatePreferences(Mono<PreferencesApiDto> preferences,
+            ServerWebExchange exchange) {
+        return savePreferences(preferences, exchange);
+    }
 
 }

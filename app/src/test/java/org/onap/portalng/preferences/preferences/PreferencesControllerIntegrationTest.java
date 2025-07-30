@@ -25,18 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.onap.portalng.preferences.BaseIntegrationTest;
-import org.onap.portalng.preferences.openapi.model.Preferences;
+import org.onap.portalng.preferences.openapi.model.PreferencesApiDto;
 import org.onap.portalng.preferences.services.PreferencesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 
 class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
-
-    protected static final String X_REQUEST_ID = "addf6005-3075-4c80-b7bc-2c70b7d42b57";
 
     @Autowired
     PreferencesService preferencesService;
@@ -44,23 +41,22 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void thatUserPreferencesCanBeRetrieved() {
         // First save a user preference before a GET can run
-        Preferences expectedResponse = new Preferences()
+        PreferencesApiDto expectedResponse = new PreferencesApiDto()
             .properties("{\"properties\": {\"dashboard\": {\"key1:\": \"value2\"}, \"appStarter\": \"value1\"}}");
         preferencesService
-            .savePreferences(X_REQUEST_ID,"test-user", expectedResponse)
+            .savePreferences("test-user", expectedResponse)
             .block();
 
-        Preferences actualResponse = requestSpecification("test-user")
+        PreferencesApiDto actualResponse = requestSpecification("test-user")
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)
-            .header(new Header("X-Request-Id", X_REQUEST_ID))
             .when()
             .get("/v1/preferences")
             .then()
             .statusCode(HttpStatus.OK.value())
             .extract()
             .body()
-            .as(Preferences.class);
+            .as(PreferencesApiDto.class);
 
         assertThat(actualResponse).isNotNull();
         assertThat(actualResponse.getProperties()).isEqualTo(expectedResponse.getProperties());
@@ -72,7 +68,6 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(ContentType.JSON)
-            .header(new Header("X-Request-Id", X_REQUEST_ID))
             .when()
             .get("/v1/preferences")
             .then()
@@ -81,7 +76,7 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void thatUserPreferencesCanBeSaved() {
-        Preferences expectedResponse = new Preferences()
+        PreferencesApiDto expectedResponse = new PreferencesApiDto()
             .properties("""
                 {
                     "properties": { "appStarter": "value1",
@@ -89,11 +84,10 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
                     }\s
                 }\
                 """);
-        Preferences actualResponse = requestSpecification()
+        PreferencesApiDto actualResponse = requestSpecification()
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(ContentType.JSON)
-            .header(new Header("X-Request-Id", X_REQUEST_ID))
             .body(expectedResponse)
             .when()
             .post("/v1/preferences")
@@ -101,7 +95,7 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
             .statusCode(HttpStatus.OK.value())
             .extract()
             .body()
-            .as(Preferences.class);
+            .as(PreferencesApiDto.class);
 
         assertThat(actualResponse).isNotNull();
         assertThat(actualResponse.getProperties()).isEqualTo(expectedResponse.getProperties());
@@ -110,7 +104,7 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void thatUserPreferencesCanBeUpdated() {
         // First save a user preference before a GET can run
-        Preferences initialPreferences = new Preferences()
+        PreferencesApiDto initialPreferences = new PreferencesApiDto()
             .properties("""
                 {
                     "properties": { "appStarter": "value1",
@@ -119,10 +113,10 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
                 }\
                 """);
         preferencesService
-            .savePreferences(X_REQUEST_ID,"test-user", initialPreferences)
+            .savePreferences("test-user", initialPreferences)
             .block();
 
-        Preferences expectedResponse = new Preferences()
+        PreferencesApiDto expectedResponse = new PreferencesApiDto()
             .properties("""
                 {
                     "properties": { "appStarter": "value3",
@@ -130,11 +124,10 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
                     }\s
                 }\
                 """);
-        Preferences actualResponse = requestSpecification("test-user")
+        PreferencesApiDto actualResponse = requestSpecification("test-user")
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)
             .contentType(ContentType.JSON)
-            .header(new Header("X-Request-Id", X_REQUEST_ID))
             .body(expectedResponse)
             .when()
             .put("/v1/preferences")
@@ -142,7 +135,7 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
             .statusCode(HttpStatus.OK.value())
             .extract()
             .body()
-            .as(Preferences.class);
+            .as(PreferencesApiDto.class);
 
         assertThat(actualResponse).isNotNull();
         assertThat(actualResponse.getProperties()).isEqualTo(expectedResponse.getProperties());
@@ -151,50 +144,18 @@ class PreferencesControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void thatUserPreferencesCanNotBeFound() {
 
-        Preferences actualResponse = requestSpecification("test-canNotBeFound")
+        PreferencesApiDto actualResponse = requestSpecification("test-canNotBeFound")
             .given()
             .accept(MediaType.APPLICATION_JSON_VALUE)
-            .header(new Header("X-Request-Id", X_REQUEST_ID))
             .when()
             .get("/v1/preferences")
             .then()
             .statusCode(HttpStatus.OK.value())
             .extract()
             .body()
-            .as(Preferences.class);
+            .as(PreferencesApiDto.class);
 
         assertThat(actualResponse).isNotNull();
         assertThat(actualResponse.getProperties()).isNull();
-    }
-
-    @Test
-    void thatUserPreferencesHasXRequestIdHeader() {
-
-        String actualResponse = requestSpecification("test-user")
-            .given()
-            .accept(MediaType.APPLICATION_JSON_VALUE)
-            .header(new Header("X-Request-Id", X_REQUEST_ID))
-            .when()
-            .get("/v1/preferences")
-            .then()
-            .statusCode(HttpStatus.OK.value())
-            .extract()
-            .header("X-Request-Id");
-
-        assertThat(actualResponse).isNotNull().isEqualTo(X_REQUEST_ID);
-    }
-
-    @Test
-    void thatUserPreferencesHasNoXRequestIdHeader() {
-
-         requestSpecification("test-user")
-            .given()
-            .accept(MediaType.APPLICATION_JSON_VALUE)
-            .when()
-            .get("/v1/preferences")
-            .then()
-            .statusCode(HttpStatus.BAD_REQUEST.value());
-
-
     }
 }

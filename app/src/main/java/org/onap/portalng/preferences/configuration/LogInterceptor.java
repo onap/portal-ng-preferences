@@ -22,6 +22,7 @@
 package org.onap.portalng.preferences.configuration;
 
 import org.onap.portalng.preferences.util.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.reactive.ServerWebExchangeContextFilter;
 import org.springframework.web.server.ServerWebExchange;
@@ -33,27 +34,28 @@ import java.util.List;
 
 @Component
 public class LogInterceptor implements WebFilter {
-  public static final String EXCHANGE_CONTEXT_ATTRIBUTE =
-      ServerWebExchangeContextFilter.class.getName() + ".EXCHANGE_CONTEXT";
+    public static final String EXCHANGE_CONTEXT_ATTRIBUTE = ServerWebExchangeContextFilter.class.getName()
+            + ".EXCHANGE_CONTEXT";
 
-  public static final String X_REQUEST_ID = "X-Request-Id";
+    @Value("${logger.traceIdHeaderName}")
+    public static String X_REQUEST_ID;
 
-  @Override
-  public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-    List<String> xRequestIdList = exchange.getRequest().getHeaders().get(X_REQUEST_ID);
-    if (xRequestIdList != null && !xRequestIdList.isEmpty()) {
-      String xRequestId = xRequestIdList.get(0);
-      Logger.requestLog(
-          xRequestId, exchange.getRequest().getMethod(), exchange.getRequest().getURI());
-      exchange.getResponse().getHeaders().add(X_REQUEST_ID, xRequestId);
-      exchange.getResponse().beforeCommit(() -> {
-        Logger.responseLog(xRequestId,exchange.getResponse().getStatusCode());
-        return Mono.empty();
-      });
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        List<String> xRequestIdList = exchange.getRequest().getHeaders().get(X_REQUEST_ID);
+        if (xRequestIdList != null && !xRequestIdList.isEmpty()) {
+            String xRequestId = xRequestIdList.get(0);
+            Logger.requestLog(
+                    exchange.getRequest().getMethod(), exchange.getRequest().getURI());
+            exchange.getResponse().getHeaders().add(X_REQUEST_ID, xRequestId);
+            exchange.getResponse().beforeCommit(() -> {
+                Logger.responseLog(exchange.getResponse().getStatusCode());
+                return Mono.empty();
+            });
+        }
+
+        return chain
+                .filter(exchange)
+                .contextWrite(cxt -> cxt.put(EXCHANGE_CONTEXT_ATTRIBUTE, exchange));
     }
-
-    return chain
-        .filter(exchange)
-        .contextWrite(cxt -> cxt.put(EXCHANGE_CONTEXT_ATTRIBUTE, exchange));
-  }
 }
