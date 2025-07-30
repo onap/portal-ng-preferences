@@ -22,15 +22,11 @@
 package org.onap.portalng.preferences.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
-@Data
+@Validated
 @ConfigurationProperties("preferences")
-public class PreferencesConfig {
-
-    @NotBlank
-    private final String realm;
-    
+public record PreferencesConfig(@NotBlank String realm) {
 }
