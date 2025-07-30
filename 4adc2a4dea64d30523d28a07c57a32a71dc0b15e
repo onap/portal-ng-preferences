@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "853edee8_6827c1a9",
+        "filename": "app/src/main/java/org/onap/portalng/preferences/util/IdTokenExchange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7849
+      },
+      "writtenOn": "2025-07-30T14:02:29Z",
+      "side": 0,
+      "message": "Not using the `X-Auth-Identity` is likely a breaking change right? We would need to adjust all clients to now use the `Authorization` header to send the id token, correct?",
+      "revId": "4adc2a4dea64d30523d28a07c57a32a71dc0b15e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
