@@ -76,9 +76,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'io.rest-assured:rest-assured'
-	testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock:$springCloudWiremockVersion"
     testImplementation "org.testcontainers:postgresql"
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
