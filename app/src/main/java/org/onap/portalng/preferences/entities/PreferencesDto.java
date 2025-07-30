@@ -21,30 +21,22 @@
 
 package org.onap.portalng.preferences.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Map;
-
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "preferences")
 public class PreferencesDto {
-  @Id
-  private String userId;
+  @Id private String userId;
 
   @JdbcTypeCode(SqlTypes.JSON)
   private JsonNode properties;
-
 }
-

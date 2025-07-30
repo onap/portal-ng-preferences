@@ -1,38 +1,33 @@
-server:
-    port: 9001
-    address: 0.0.0.0
-
 spring:
-  jackson:
-    serialization:
-      # needed for serializing objects of type object
-      FAIL_ON_EMPTY_BEANS: false
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/realms/ONAP/protocol/openid-connect/certs #Keycloak Endpoint
+          jwk-set-uri: http://localhost:8081/realms/ONAP/protocol/openid-connect/certs #Keycloak Endpoint
   datasource:
-    url: jdbc:postgresql://localhost:5441/preferences
+    url: jdbc:postgresql://localhost:5432/preferences
     username: postgres
     password: postgres
   jpa:
     show-sql: true
+    database: postgresql
+    properties:
+      hibernate:
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 100
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: "classpath:/db/changelog.xml"
 
 preferences:
     realm: ONAP
 
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  info:
-    build:
-      enabled: true
-    env:
-      enabled: true
-    git:
-      enabled: true
-    java:
-      enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
