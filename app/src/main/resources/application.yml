@@ -13,9 +13,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: ${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/certs #Keycloak Endpoint
+          jwk-set-uri: ${KEYCLOAK_URL:http://localhost:8080}/realms/${KEYCLOAK_REALM:onap}/protocol/openid-connect/certs #Keycloak Endpoint
   datasource:
-    url: jdbc:postgresql://${PREFERENCES_DB_HOST}:${PREFERENCES_DB_PORT}/${PREFERENCES_DB}
+    url: jdbc:postgresql://${PREFERENCES_DB_HOST:preferences-pg}:${PREFERENCES_DB_PORT:5432}/${PREFERENCES_DB:preferences}
     username: ${PREFERENCES_DB_USERNAME}
     password: ${PREFERENCES_DB_PASSWORD}
   jpa:

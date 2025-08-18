@@ -8,6 +8,7 @@ pluginManagement {
     id 'com.gorylenko.gradle-git-properties' version '2.5.2'
     id 'org.openapi.generator' version '7.14.0'
     id 'com.diffplug.spotless' version '7.2.1'
+    id 'org.graalvm.buildtools.native' version '0.11.0'
   }
   // https://docs.gradle.org/current/userguide/plugins.html#sec:custom_plugin_repositories
   repositories {
@@ -39,4 +40,3 @@ rootProject.name = 'preferences'
 
 include 'openapi'
 include 'app'
-

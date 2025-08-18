@@ -19,6 +19,16 @@ This microservice manages the user specific config for the `portal-ui` frontend 
 ./gradlew test --tests GetTileIntegrationTest.thatTileCanBeRetrieved --debug  # run individual test in file with debug enabled
 ```
 
+```sh
+./gradlew nativeTest
+```
+
+### Docker
+
+```sh
+./gradlew bootBuildImage
+```
+
 ## Development
 You can run the service locally for evaluation or development purposes using the provided `docker-compose.yml` file in the development folder. This will launch a Keycloak, a Postgres and a Mongo db in the background.
 
@@ -31,10 +41,10 @@ development/run.sh
 
 Example request against the preferences service can be run in your preferred IDE with the `request.http` file from the development folder.
 
-You can access the Keycloak UI via browser.  
-URL: http://localhost:8080  
-**username:** admin  
-**password:** password  
+You can access the Keycloak UI via browser.
+URL: http://localhost:8080
+**username:** admin
+**password:** password
 
 To stop the preferences service, Keycloak and the databases run:
 ```sh
