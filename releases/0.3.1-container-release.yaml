@@ -1,0 +1,7 @@
+distribution_type: container
+container_release_tag: 0.3.1
+project: portal-ng/preferences
+ref: fc6d5ae5860908681ad4a74a1699605ac9658e05
+containers:
+    - name: portal-ng/preferences
+      version: latest
