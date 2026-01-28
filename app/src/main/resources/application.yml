@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: preferences
+    name: ${APPLICATION_NAME:portal-ng-preferences}
   jackson:
     serialization:
       # needed for serializing objects of type object
