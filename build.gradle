@@ -1,6 +1,0 @@
-// this build.gradle is mainly here to satisfy the Jenkins gradle plugin
-allprojects {
-  repositories {
-    mavenCentral()
-  }
-}

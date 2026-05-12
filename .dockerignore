@@ -1,0 +1,6 @@
+.git
+.gitignore
+*.md
+*_test.go
+integration_test.go
+development/
