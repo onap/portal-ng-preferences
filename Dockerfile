@@ -1,11 +1,13 @@
-FROM eclipse-temurin:21 as builder
-COPY . ./preferences
-WORKDIR /preferences
-RUN ./gradlew assemble
+FROM golang:1.26-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o preferences ./cmd/preferences
 
-FROM eclipse-temurin:21-jre-alpine
-USER nobody
-ARG JAR_FILE=/preferences/app/build/libs/app-*.jar
-COPY --from=builder ${JAR_FILE} app.jar
+FROM alpine:3.21
+RUN adduser -D -u 65534 appuser
+USER appuser
+COPY --from=builder /app/preferences /preferences
 EXPOSE 9001
-ENTRYPOINT [ "java","-jar","app.jar" ]
+ENTRYPOINT ["/preferences"]
