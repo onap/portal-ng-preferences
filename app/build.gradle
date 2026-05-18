@@ -42,7 +42,7 @@ repositories {
 }
 
 ext {
-  problemVersion = '0.27.1'
+  problemVersion = '1.0.0'
   swaggerAnnotationsVersion = '2.2.50'
 }
 
