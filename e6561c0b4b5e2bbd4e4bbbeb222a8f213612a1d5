@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Code-Review+2: Kevin Sandi <ksandi@contractor.linuxfoundation.org>
+Submitted-by: Kevin Sandi <ksandi@contractor.linuxfoundation.org>
+Submitted-at: Fri, 22 May 2026 18:35:04 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/portal-ng/preferences/+/144612
+Project: portal-ng/preferences
+Branch: refs/heads/master
