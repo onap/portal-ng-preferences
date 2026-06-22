@@ -37,3 +37,4 @@ out/
 ### VS Code ###
 .vscode/
 .attach_pid*
+CLAUDE.md
