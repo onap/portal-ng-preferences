@@ -30,11 +30,13 @@ import org.onap.portalng.preferences.repository.PreferencesRepository;
 import org.onap.portalng.preferences.services.PreferencesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWebTestClient
 public class PreferencesControllerIntegrationTest {
 
   @Autowired private WebTestClient webTestClient;

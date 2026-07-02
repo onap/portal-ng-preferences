@@ -6,6 +6,7 @@ spring:
   application:
     name: preferences-test
   jackson:
+    use-jackson2-defaults: true
     serialization:
       # needed for serializing objects of type object
       fail-on-empty-beans: false
