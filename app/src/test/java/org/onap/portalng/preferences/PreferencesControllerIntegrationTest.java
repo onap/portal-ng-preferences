@@ -118,7 +118,9 @@ public class PreferencesControllerIntegrationTest {
   void thatComplexUserPreferencesCanBeRetrieved(
       @Autowired final PreferencesService preferencesService) throws Exception {
     final var prefs = getComplexPreferencesApiDto();
-    preferencesService.savePreferences("user", prefs);
+    // block() to subscribe: savePreferences is now lazy (deferred via Mono.fromCallable) instead
+    // of eagerly saving during Mono assembly, so the save only runs once subscribed.
+    preferencesService.savePreferences("user", prefs).block();
     webTestClient
         .mutateWith(SecurityMockServerConfigurers.mockJwt().jwt(jwt -> jwt.claim("sub", "user")))
         .get()

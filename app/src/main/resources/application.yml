@@ -21,6 +21,11 @@ spring:
     url: jdbc:postgresql://${PREFERENCES_DB_HOST}:${PREFERENCES_DB_PORT}/${PREFERENCES_DB}
     username: ${PREFERENCES_DB_USERNAME}
     password: ${PREFERENCES_DB_PASSWORD}
+    hikari:
+      # Explicit, env-overridable pool sizing. Sized to complement the boundedElastic
+      # scheduler that runs the blocking JPA calls off the Netty event loop.
+      maximum-pool-size: ${PREFERENCES_DB_POOL_MAX_SIZE:10}
+      minimum-idle: ${PREFERENCES_DB_POOL_MIN_IDLE:2}
   jpa:
     database: postgresql
     properties:

@@ -30,6 +30,7 @@ import org.onap.portalng.preferences.repository.PreferencesRepository;
 import org.onap.portalng.preferences.util.Logger;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @RequiredArgsConstructor
 @Service
@@ -40,7 +41,8 @@ public class PreferencesService {
   private final ObjectMapper objectMapper;
 
   public Mono<PreferencesApiDto> getPreferences(String userId) {
-    return Mono.just(repository.findById(userId).orElse(defaultPreferences()))
+    return Mono.fromCallable(() -> repository.findById(userId).orElse(defaultPreferences()))
+        .subscribeOn(Schedulers.boundedElastic())
         .map(this::toPreferences);
   }
 
@@ -50,7 +52,8 @@ public class PreferencesService {
     preferencesDto.setUserId(userId);
     preferencesDto.setProperties(objectMapper.valueToTree(preferences.getProperties()));
 
-    return Mono.just(repository.save(preferencesDto))
+    return Mono.fromCallable(() -> repository.save(preferencesDto))
+        .subscribeOn(Schedulers.boundedElastic())
         .map(this::toPreferences)
         .onErrorResume(
             ProblemException.class,
