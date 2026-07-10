@@ -31,7 +31,7 @@ import org.springframework.boot.availability.ReadinessState;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AcutatorIntegrationTest {
+class ActuatorIntegrationTest {
   @Autowired private ApplicationAvailability applicationAvailability;
 
   @Test
