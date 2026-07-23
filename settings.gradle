@@ -6,7 +6,7 @@ pluginManagement {
     id 'org.springframework.boot' version '4.0.7'
     id 'com.gorylenko.gradle-git-properties' version '2.5.7'
     id 'org.openapi.generator' version '7.14.0'
-    id 'com.diffplug.spotless' version '8.4.0'
+    id 'com.diffplug.spotless' version '8.5.1'
   }
   // https://docs.gradle.org/current/userguide/plugins.html#sec:custom_plugin_repositories
   repositories {
