@@ -21,31 +21,21 @@
 
 package org.onap.portalng.preferences.exception;
 
-import java.net.URI;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import org.zalando.problem.AbstractThrowableProblem;
-import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
-import org.zalando.problem.StatusType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.ErrorResponseException;
 
 /** The default preferences exception */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class ProblemException extends AbstractThrowableProblem {
-  @Builder.Default private final URI type = Problem.DEFAULT_TYPE;
+public class ProblemException extends ErrorResponseException {
 
-  @Builder.Default private final String title = "Bad preferences error";
+  public ProblemException(HttpStatus status, String detail) {
+    super(status, problemDetail(status, detail), null);
+  }
 
-  @Builder.Default private final StatusType status = Status.BAD_REQUEST;
-
-  @Builder.Default private final String detail = "Please add more details here";
-
-  @Builder.Default private final URI instance = null;
+  private static ProblemDetail problemDetail(HttpStatus status, String detail) {
+    ProblemDetail problemDetail = ProblemDetail.forStatus(status);
+    problemDetail.setTitle("Bad preferences error");
+    problemDetail.setDetail(detail);
+    return problemDetail;
+  }
 }

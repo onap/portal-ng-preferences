@@ -23,8 +23,6 @@ package org.onap.portalng.preferences;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.opentelemetry.sdk.testing.exporter.InMemorySpanExporter;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.data.SpanData;
@@ -45,6 +43,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -63,7 +63,7 @@ class TracingIntegrationTest {
   @Autowired private WebTestClient webTestClient;
   @Autowired private InMemorySpanExporter spanExporter;
   @Autowired private SdkTracerProvider tracerProvider;
-  @Autowired private ObjectMapper objectMapper;
+  @Autowired private JsonMapper jsonMapper;
 
   @TestConfiguration
   static class TestConfig {
@@ -97,17 +97,17 @@ class TracingIntegrationTest {
 
     List<JsonNode> requestLines =
         logLines(output).stream()
-            .filter(line -> REQUEST_ID.equals(line.path("request_id").asText()))
+            .filter(line -> REQUEST_ID.equals(line.path("request_id").asString()))
             .toList();
 
     assertThat(requestLines)
-        .extracting(line -> line.path("message").asText())
+        .extracting(line -> line.path("message").asString())
         .contains("RECEIVED", "FINISHED");
     assertThat(requestLines)
         .allSatisfy(
             line -> {
-              assertThat(line.path("trace_id").asText()).isEqualTo(TRACE_ID);
-              assertThat(line.path("span_id").asText()).matches("[0-9a-f]{16}");
+              assertThat(line.path("trace_id").asString()).isEqualTo(TRACE_ID);
+              assertThat(line.path("span_id").asString()).matches("[0-9a-f]{16}");
             });
   }
 
@@ -147,9 +147,9 @@ class TracingIntegrationTest {
         .map(
             line -> {
               try {
-                return objectMapper.readTree(line);
+                return jsonMapper.readTree(line);
               } catch (Exception e) {
-                return objectMapper.nullNode();
+                return jsonMapper.nullNode();
               }
             })
         .toList();

@@ -21,7 +21,6 @@
 
 package org.onap.portalng.preferences.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.onap.portalng.preferences.entities.PreferencesDto;
 import org.onap.portalng.preferences.exception.ProblemException;
@@ -31,6 +30,7 @@ import org.onap.portalng.preferences.util.Logger;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import tools.jackson.databind.json.JsonMapper;
 
 @RequiredArgsConstructor
 @Service
@@ -38,7 +38,7 @@ public class PreferencesService {
 
   private final PreferencesRepository repository;
 
-  private final ObjectMapper objectMapper;
+  private final JsonMapper jsonMapper;
 
   public Mono<PreferencesApiDto> getPreferences(String userId) {
     return Mono.fromCallable(() -> repository.findById(userId).orElse(defaultPreferences()))
@@ -50,7 +50,7 @@ public class PreferencesService {
 
     var preferencesDto = new PreferencesDto();
     preferencesDto.setUserId(userId);
-    preferencesDto.setProperties(objectMapper.valueToTree(preferences.getProperties()));
+    preferencesDto.setProperties(jsonMapper.valueToTree(preferences.getProperties()));
 
     return Mono.fromCallable(() -> repository.save(preferencesDto))
         .subscribeOn(Schedulers.boundedElastic())
