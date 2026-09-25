@@ -57,6 +57,12 @@ management:
       enabled: true
     java:
       enabled: true
+  observations:
+    enable:
+      # Security observations carry no URI, so the untraced-paths predicate cannot drop them
+      # and every probe would still export orphaned filter-chain spans. Re-enabling this
+      # brings that probe noise back.
+      spring.security: false
   tracing:
     export:
       enabled: ${TRACING_ENABLED:true}
