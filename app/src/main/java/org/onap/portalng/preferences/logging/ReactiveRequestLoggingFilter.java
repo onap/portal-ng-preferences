@@ -47,7 +47,7 @@ public class ReactiveRequestLoggingFilter implements WebFilter {
     }
 
     var logMessageMetadata =
-        WebExchangeUtils.getRequestMetadata(exchange, loggerProperties.traceIdHeaderName());
+        WebExchangeUtils.getRequestMetadata(exchange, loggerProperties.requestIdHeaderName());
 
     LoggingHelper.info(log, logMessageMetadata, "RECEIVED");
 

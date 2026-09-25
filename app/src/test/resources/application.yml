@@ -35,6 +35,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: "classpath:/db/changelog.xml"
+  reactor:
+    context-propagation: auto
 
 preferences:
   realm: ONAP
@@ -57,7 +59,7 @@ management:
       enabled: false
 
 logger:
-  traceIdHeaderName: x-b3-traceid
+  requestIdHeaderName: X-Request-Id
   enabled: true
   excludePaths:
     - "/actuator/**"
@@ -66,5 +68,9 @@ logging:
   structured:
     format:
       console: logstash
+    json:
+      rename:
+        traceId: trace_id
+        spanId: span_id
   level:
     root: info
