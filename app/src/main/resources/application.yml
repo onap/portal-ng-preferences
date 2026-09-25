@@ -47,7 +47,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: health,info,prometheus
   info:
     build:
       enabled: true
