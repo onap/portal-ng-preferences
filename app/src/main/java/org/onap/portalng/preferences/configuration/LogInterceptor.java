@@ -36,7 +36,7 @@ public class LogInterceptor implements WebFilter {
   public static final String EXCHANGE_CONTEXT_ATTRIBUTE =
       ServerWebExchangeContextFilter.class.getName() + ".EXCHANGE_CONTEXT";
 
-  @Value("${logger.traceIdHeaderName}")
+  @Value("${logger.requestIdHeaderName}")
   public static String X_REQUEST_ID;
 
   @Override

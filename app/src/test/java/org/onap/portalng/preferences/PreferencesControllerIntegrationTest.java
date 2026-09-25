@@ -21,8 +21,12 @@
 
 package org.onap.portalng.preferences;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.portalng.preferences.openapi.model.PreferencesApiDto;
@@ -32,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -130,6 +135,68 @@ public class PreferencesControllerIntegrationTest {
         .isOk()
         .expectBody()
         .json(objectMapper.writeValueAsString(prefs));
+  }
+
+  @Test
+  void thatPreferenceUpdatesAreCountedByOperationAndOutcome() throws Exception {
+    final var prefs = getSimplePreferencesApiDto();
+    final var before = scrapeMetrics();
+
+    webTestClient
+        .mutateWith(SecurityMockServerConfigurers.mockJwt().jwt(jwt -> jwt.claim("sub", "user")))
+        .post()
+        .uri("/v1/preferences")
+        .bodyValue(prefs)
+        .exchange()
+        .expectStatus()
+        .isOk();
+    webTestClient
+        .mutateWith(SecurityMockServerConfigurers.mockJwt().jwt(jwt -> jwt.claim("sub", "user")))
+        .put()
+        .uri("/v1/preferences")
+        .bodyValue(prefs)
+        .exchange()
+        .expectStatus()
+        .isOk();
+    webTestClient
+        .mutateWith(SecurityMockServerConfigurers.mockJwt().jwt(jwt -> jwt.claim("sub", "user")))
+        .put()
+        .uri("/v1/preferences")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue("{not json")
+        .exchange()
+        .expectStatus()
+        .isBadRequest();
+
+    final var after = scrapeMetrics();
+    assertThat(updates(after, "save", "success") - updates(before, "save", "success")).isEqualTo(1);
+    assertThat(updates(after, "update", "success") - updates(before, "update", "success"))
+        .isEqualTo(1);
+    assertThat(updates(after, "update", "failure") - updates(before, "update", "failure"))
+        .isEqualTo(1);
+  }
+
+  private String scrapeMetrics() {
+    return webTestClient
+        .get()
+        .uri("/actuator/prometheus")
+        .accept(MediaType.TEXT_PLAIN)
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectBody(String.class)
+        .returnResult()
+        .getResponseBody();
+  }
+
+  private static double updates(String metrics, String operation, String outcome) {
+    Matcher matcher =
+        Pattern.compile(
+                "^preferences_updates_total\\{operation=\"%s\",outcome=\"%s\"} (\\S+)$"
+                    .formatted(operation, outcome),
+                Pattern.MULTILINE)
+            .matcher(metrics);
+    return matcher.find() ? Double.parseDouble(matcher.group(1)) : 0;
   }
 
   private PreferencesApiDto getDefaultPreferencesApiDto() {

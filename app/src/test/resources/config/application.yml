@@ -21,6 +21,3 @@ management:
   tracing:
     export:
       enabled: false
-
-logger:
-  traceIdHeaderName: x-b3-traceid
