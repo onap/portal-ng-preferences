@@ -22,13 +22,24 @@
 package org.onap.portalng.preferences.configuration;
 
 import java.time.Clock;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tools.jackson.databind.util.StdDateFormat;
 
 @Configuration
 public class BeansConfig {
   @Bean
   Clock clock() {
     return Clock.systemUTC();
+  }
+
+  /**
+   * Jackson 3 writes a UTC {@link java.util.Date} as {@code ...Z}, Jackson 2 wrote {@code
+   * ...+00:00}. Keeps the {@code timestamp} of Boot's error body in the Jackson 2 form.
+   */
+  @Bean
+  JsonMapperBuilderCustomizer zeroOffsetDateFormatCustomizer() {
+    return builder -> builder.defaultDateFormat(new StdDateFormat().withZeroOffsetAsZ(false));
   }
 }

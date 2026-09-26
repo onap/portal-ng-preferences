@@ -23,7 +23,6 @@ package org.onap.portalng.preferences;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,13 +38,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import tools.jackson.databind.json.JsonMapper;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
 public class PreferencesControllerIntegrationTest {
 
   @Autowired private WebTestClient webTestClient;
-  @Autowired private ObjectMapper objectMapper;
+  @Autowired private JsonMapper jsonMapper;
 
   @BeforeEach
   void setup(
@@ -86,7 +86,7 @@ public class PreferencesControllerIntegrationTest {
         .expectStatus()
         .isOk()
         .expectBody()
-        .json(objectMapper.writeValueAsString(prefs));
+        .json(jsonMapper.writeValueAsString(prefs));
   }
 
   @Test
@@ -101,7 +101,7 @@ public class PreferencesControllerIntegrationTest {
         .expectStatus()
         .isOk()
         .expectBody()
-        .json(objectMapper.writeValueAsString(prefs));
+        .json(jsonMapper.writeValueAsString(prefs));
   }
 
   @Test
@@ -116,7 +116,7 @@ public class PreferencesControllerIntegrationTest {
         .expectStatus()
         .isOk()
         .expectBody()
-        .json(objectMapper.writeValueAsString(prefs));
+        .json(jsonMapper.writeValueAsString(prefs));
   }
 
   @Test
@@ -134,7 +134,7 @@ public class PreferencesControllerIntegrationTest {
         .expectStatus()
         .isOk()
         .expectBody()
-        .json(objectMapper.writeValueAsString(prefs));
+        .json(jsonMapper.writeValueAsString(prefs));
   }
 
   @Test
@@ -205,13 +205,13 @@ public class PreferencesControllerIntegrationTest {
 
   private PreferencesApiDto getSimplePreferencesApiDto() throws Exception {
     return new PreferencesApiDto()
-        .properties(objectMapper.readValue("{\"appStarter\":\"appStarterValue\"}", Map.class));
+        .properties(jsonMapper.readValue("{\"appStarter\":\"appStarterValue\"}", Map.class));
   }
 
   private PreferencesApiDto getComplexPreferencesApiDto() throws Exception {
     return new PreferencesApiDto()
         .properties(
-            objectMapper.readValue(
+            jsonMapper.readValue(
                 "{\"appStarter\":\"appStarterValue1\", \"dashboard\":{\"dashboardKey\":\"dashboardValue\"}}",
                 Map.class));
   }

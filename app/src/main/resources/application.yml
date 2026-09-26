@@ -6,12 +6,13 @@ spring:
   application:
     name: ${APPLICATION_NAME:portal-ng-preferences}
   jackson:
-    # Boot 4 defaults to Jackson 3; keep Boot-3 Jackson 2 conventions because the JSONB
-    # persistence layer (Hibernate FormatMapper) requires the Jackson 2 ObjectMapper.
-    use-jackson2-defaults: true
     serialization:
       # needed for serializing objects of type object
       fail-on-empty-beans: false
+    deserialization:
+      # Jackson 3 rejects content after the first JSON value, Jackson 2 accepted such request
+      # bodies. Pinned by WireContractIntegrationTest.
+      fail-on-trailing-tokens: false
   security:
     oauth2:
       resourceserver:
@@ -38,6 +39,11 @@ spring:
           lob:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        type:
+          # Hibernate prefers its Jackson 2 mapper as soon as jackson-databind 2 is on the
+          # classpath (e.g. pulled in transitively), and that mapper cannot handle the Jackson 3
+          # JsonNode of the properties column.
+          json_format_mapper: jackson3
   liquibase:
     change-log: "classpath:/db/changelog.xml"
   reactor:
