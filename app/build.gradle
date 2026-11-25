@@ -48,8 +48,8 @@ repositories {
 }
 
 ext {
-  swaggerAnnotationsVersion = '2.2.51'
-  datasourceMicrometerVersion = '2.2.1'
+  swaggerAnnotationsVersion = '2.2.56'
+  datasourceMicrometerVersion = '2.3.1'
 }
 
 dependencies {
@@ -68,10 +68,9 @@ dependencies {
 
   implementation 'io.micrometer:micrometer-tracing'
   implementation 'io.micrometer:micrometer-tracing-bridge-otel'
-  implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
-  // Boot 4 moved tracing/OTel/Zipkin auto-config out of actuator-autoconfigure into opt-in
-  // modules that are not pulled transitively. These wire micrometer-tracing -> OTel SDK ->
-  // ZipkinSpanExporter; spring-boot-zipkin provides the HTTP sender + endpoint property.
+  // 1.64.0 is the last published OpenTelemetry Zipkin exporter.
+  implementation 'io.opentelemetry:opentelemetry-exporter-zipkin:1.64.0'
+  // Spring Boot supplies the Zipkin sender and endpoint properties for TracingConfig.
   implementation 'org.springframework.boot:spring-boot-zipkin'
   implementation 'org.springframework.boot:spring-boot-micrometer-tracing'
   implementation 'org.springframework.boot:spring-boot-micrometer-tracing-opentelemetry'

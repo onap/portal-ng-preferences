@@ -22,18 +22,34 @@
 package org.onap.portalng.preferences.configuration;
 
 import io.micrometer.observation.ObservationPredicate;
+import io.opentelemetry.exporter.zipkin.ZipkinSpanExporter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.micrometer.tracing.autoconfigure.ConditionalOnEnabledTracingExport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.reactive.observation.ServerRequestObservationContext;
 import org.springframework.util.AntPathMatcher;
+import zipkin2.reporter.BytesMessageSender;
+import zipkin2.reporter.Encoding;
+import zipkin2.reporter.SpanBytesEncoder;
 
 @Configuration
 public class TracingConfig {
 
   private static final List<String> UNTRACED_PATHS =
       List.of("/actuator/health/**", "/actuator/prometheus");
+
+  // Spring Boot 4.2 still configures the Zipkin sender but leaves exporter wiring to the app.
+  @Bean
+  @ConditionalOnEnabledTracingExport("zipkin")
+  @SuppressWarnings("deprecation")
+  ZipkinSpanExporter zipkinSpanExporter(BytesMessageSender sender, Encoding encoding) {
+    return ZipkinSpanExporter.builder()
+        .setSender(sender)
+        .setEncoder(SpanBytesEncoder.forEncoding(encoding))
+        .build();
+  }
 
   @Bean
   ObservationPredicate untracedPathsPredicate(
